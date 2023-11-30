@@ -15,3 +15,5 @@ Resources:
 - https://www.youtube.com/watch?v=B2iAodr0fOo
 - http://awesome-streamlit.org/
 
+
+View the deployed app at: https://eda-lab10-lucystorts.streamlit.app/ 
