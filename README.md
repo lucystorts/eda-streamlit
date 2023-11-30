@@ -1,7 +1,17 @@
-# Welcome to streamlit
+### Lab 10 
 
-This is the app you get when you run `streamlit hello`, extracted as its own app.
+Lucy Storts  
+Stat 386  
+11/30/23  
+Streamlit EDA
 
-Edit [Hello.py](./Hello.py) to customize this app to your heart's desire. ❤️
+Create a Streamlit app of your choice and deploy it using GitHub and Streamlit Community Cloud.  
 
-Check it out on [Streamlit Community Cloud](https://st-hello-app.streamlit.app/)
+Your app should have at least two interactive elements and at least one graph that updates based on the input. 
+
+Submit the URL of your public Streamlit App.  
+
+Resources:
+- https://www.youtube.com/watch?v=B2iAodr0fOo
+- http://awesome-streamlit.org/
+
