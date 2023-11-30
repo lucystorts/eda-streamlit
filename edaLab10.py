@@ -11,23 +11,45 @@ st.write("# Lab 10")
 
 st.markdown(
     """
-    ### EDA for Final Project
-
-    In this EDA, I want to exlpore the relationship bewteen *2022 Delays* proportion and other quantitative variables using a scatterplot.
-        
-    Then, I want to perform a regression analysis for these scatterplots.  
+    ### Introduction 
+    
+    Introduction
+    At the onset of the COVID pandemic in 2020, many opted to stop traveling and there was a 
+    noticeable decline in airport travel. By 2022, airports seemed to be back to pre-pandemic 
+    business. I want to investigate 2022 statistics for the most popular airports in the United 
+    States.  
     """)
 
 airports = pd.read_csv('2022Airports.csv')
 
-st.write("### Dataset Preview")
+st.write("# Dataset")
 st.dataframe(airports) 
 
 st.markdown(
     """
     ### About the Data
 
-    This data was created...
+    I created an extensive table for the top 200 ranked airports in the United States. Data for 
+    this ranked list was sourced from the Bureau of Transportation Statistics. 
+
+    DataCleaning.ipynb is where the data was cleaned and organized. 
+    - The ranked list file that was read into python needed to be cleaned. 
+    - I cleaned it using a LOCID table and a supplementary LOCID table. 
+    - Next, I added originating and enplaned passenger data for each airport. 
+    - Then, I used rapidAPI to get ICAO codes for each row.
+    - Next, I used a second API and the ICAO values to get long, lat, etc. columns. 
+    - Last, I found a blog that compiled an updated table of US airports for 2020 and 
+    interesting statistics. I accessed the table as a text file and merged it onto my pandas 
+    DataFrame. 
+
+    I saved this table as a csv file which can be viewed above. 
+
+    # EDA
+
+    In this EDA, I want to exlpore the relationship bewteen *2022 Delays* proportion and 
+    other quantitative variables using a scatterplot.
+        
+    Then, I want to perform a regression analysis for the Q → Q scatterplots.
     """)
 
 #  filters
@@ -61,15 +83,14 @@ fig.update_layout(title=f'Top 200 Airports 2022: Delays vs. {selected_variable} 
 
 st.plotly_chart(fig)
 
-st.write("## Summary Statistics")
+st.write("### Summary Statistics")
 st.write(filtered_airports[[selected_variable, 'Delays']].describe())
 
 # Get regression results
-#X = sm.add_constant(filtered_airports[selected_variable])
-#y = filtered_airports['Delays']
-#model = sm.OLS(y, X).fit()
+X = sm.add_constant(filtered_airports[selected_variable])
+y = filtered_airports['Delays']
+model = sm.OLS(y, X).fit()
 
 # Display regression results
-#st.write("## Regression Analysis Results")
-#st.write(model.summary())
-#"""
+st.write("### Regression Analysis Results")
+st.write(model.summary())
