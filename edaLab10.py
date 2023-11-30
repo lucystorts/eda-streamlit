@@ -39,28 +39,31 @@ selected_variable = st.selectbox("Select Variable for X-axis", ['Elevation', '20
 filtered_airports = airports[(airports['2022 Rank'] >= selected_rank[0]) & (airports['2022 Rank'] <= selected_rank[1])]
 
 fig = px.scatter(filtered_airports, x=selected_variable, y='Delays',
-                 color_discrete_sequence=['#4b7b9b',],
                  hover_data={'Airport': True, 'IATA': True, '2022 Rank': True, selected_variable: True, 'Delays': True},
-                 trendline='ols',
-                 #trendline_color_override='#00204e'
-                 )
-fig.update_traces(marker=dict(size=10, line=dict(width=2, color='#00204e')),
-                  selector=dict(mode='markers'))
+                 color_discrete_sequence=['#4b7b9b'])
+
+# Add trendline using statsmodels
+X = sm.add_constant(filtered_airports[selected_variable])
+y = filtered_airports['Delays']
+model = sm.OLS(y, X).fit()
+line = pd.DataFrame({selected_variable: [filtered_airports[selected_variable].min(), filtered_airports[selected_variable].max()]})
+line['Delays'] = model.predict(sm.add_constant(line[selected_variable]))
+
+fig.add_scatter(x=line[selected_variable], y=line['Delays'], mode='lines', name='Regression Line', line=dict(color='#00204e', width=2))
+
+# Update layout
+fig.update_traces(marker=dict(size=10, line=dict(width=2, color='#00204e')), selector=dict(mode='markers'))
 fig.update_layout(title=f'Top 200 Airports 2022: Delays vs. {selected_variable} Insights',
                   xaxis_title=f'{selected_variable}',
                   yaxis_title='Delays (2022 proportion)',
                   height=650,
                   width=800)
 
-# Update scatter plot with filtered data
-fig = px.scatter(filtered_airports, x=selected_variable, y='Delays')
-
 st.plotly_chart(fig)
 
 st.write("## Summary Statistics")
 st.write(filtered_airports[[selected_variable, 'Delays']].describe())
 
-###
 # Get regression results
 #X = sm.add_constant(filtered_airports[selected_variable])
 #y = filtered_airports['Delays']
